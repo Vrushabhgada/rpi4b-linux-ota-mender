@@ -1,3 +1,14 @@
+# ECEN 5713 AESD Fall 2025 Final Project
+
+## Project Overview
+
+[Project Overview Link](https://github.com/VrushabhGadaCU/final-project-assignment-OTA-SecureBoot/wiki)
+
+## Project Schedule
+
+[Project Schedule Link](https://github.com/users/VrushabhGadaCU/projects/2/views/1)
+
+
 # Yocto Image for RPi 4 B
 
 To Compile the image run the following command
