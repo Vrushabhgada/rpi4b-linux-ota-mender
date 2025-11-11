@@ -1,6 +1,6 @@
 #!/bin/bash
 # Script to build Yocto image for Raspberry Pi 4 with Wi-Fi enabled
-# Author: Siddhant Jajoo, updated for WiFi + boot fixes
+# Author: Vrushabh Gada, updated for WiFi + boot fixes
 
 set -e
 
@@ -22,6 +22,9 @@ SYSTEMD_INIT='VIRTUAL-RUNTIME_init_manager = "systemd"'
 SYSTEMD_BACKFILL='DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"'
 IMAGE_F='IMAGE_FEATURES += "ssh-server-openssh"'
 IMAGE_ADD='IMAGE_INSTALL:append = " linux-firmware-rpidistro-bcm43455 wpa-supplicant kernel-modules dhcpcd iw iproute2 packagegroup-base wpa-supplicant-config"'
+UBOOT='RPI_USE_U_BOOT = "1"'
+HDMI_CONSOLE='RPI_EXTRA_CONFIG = "hdmi_force_hotplug=1"'
+
 
 CONF_FILE="conf/local.conf"
 
@@ -41,6 +44,8 @@ sed -i '/VIRTUAL-RUNTIME_init_manager/d' "$CONF_FILE"
 sed -i '/DISTRO_FEATURES_BACKFILL_CONSIDERED/d' "$CONF_FILE"
 sed -i '/IMAGE_FEATURES.*ssh-server-openssh/d' "$CONF_FILE"
 sed -i '/IMAGE_INSTALL:append/d' "$CONF_FILE"
+sed -i '/ENABLE_UART/d' "$CONF_FILE"
+sed -i '/RPI_EXTRA_CONFIG/d' "$CONF_FILE"
 
 # --- Append configuration lines ---
 echo "=== Configuring local.conf ==="
@@ -59,6 +64,8 @@ append_config "$SYSTEMD_INIT" "$CONF_FILE"
 append_config "$SYSTEMD_BACKFILL" "$CONF_FILE"
 append_config "$IMAGE_F" "$CONF_FILE"
 append_config "$IMAGE_ADD" "$CONF_FILE"
+append_config "$UBOOT" "$CONF_FILE"
+append_config "$HDMI_CONSOLE" "$CONF_FILE"
 
 echo ""
 echo "=== Final local.conf WiFi configuration ==="
