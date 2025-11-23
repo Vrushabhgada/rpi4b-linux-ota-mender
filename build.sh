@@ -74,6 +74,26 @@ append_config() {
     echo "$line" >> "$file"
 }
 
+# Mender Signed Artifacts Configuration
+append_config '# === MENDER SIGNED ARTIFACTS ===' "$CONF_FILE"
+append_config 'MENDER_ARTIFACT_SIGNING_KEY = "${TOPDIR}/../keys/private.key"' "$CONF_FILE"
+append_config 'MENDER_ARTIFACT_VERIFY_KEY = "${TOPDIR}/../keys/public.key"' "$CONF_FILE"
+append_config '' "$CONF_FILE"
+
+# Ensure the keys directory exists
+if [ ! -d "../keys" ]; then
+    echo "=== Generating Mender signing keys ==="
+    mkdir -p ../keys
+    openssl genpkey -algorithm RSA -out ../keys/private.key -pkeyopt rsa_keygen_bits:3072
+    openssl rsa -in ../keys/private.key -out ../keys/public.key -pubout
+    chmod 600 ../keys/private.key
+    chmod 644 ../keys/public.key
+    echo "✓ Keys generated in keys/ directory"
+    echo "⚠️  IMPORTANT: Keep private.key secure and backed up!"
+else
+    echo "Keys directory already exists"
+fi
+
 # Basic Raspberry Pi Configuration
 append_config '# === MACHINE CONFIGURATION ===' "$CONF_FILE"
 append_config 'MACHINE = "raspberrypi4-64"' "$CONF_FILE"
@@ -221,7 +241,7 @@ echo "   lsblk"
 echo ""
 echo "3. Flash the image (replace /dev/sdX with your SD card device):"
 echo "   cd tmp/deploy/images/raspberrypi4-64/"
-echo "   sudo dd if=core-image-minimal-raspberrypi4-64.sdimg of=/dev/sdX bs=4M status=progress conv=fsync"
+echo "   ssudo dd if=core-image-minimal-raspberrypi4.sdimg of=/dev/sdb bs=1M status=progress conv=fsync oflag=direct"
 echo "   sync"
 echo ""
 echo "4. Safely eject:"
