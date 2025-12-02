@@ -104,7 +104,7 @@ append_config '' "$CONF_FILE"
 append_config '# === U-BOOT CONFIGURATION ===' "$CONF_FILE"
 append_config 'RPI_USE_U_BOOT = "1"' "$CONF_FILE"
 append_config 'PREFERRED_PROVIDER_virtual/bootloader = "u-boot"' "$CONF_FILE"
-append_config 'MENDER_UBOOT_AUTO_CONFIGURE = "0"' "$CONF_FILE"
+append_config 'MENDER_UBOOT_AUTO_CONFIGURE = "1"' "$CONF_FILE"
 append_config '' "$CONF_FILE"
 
 # Serial Console Configuration
@@ -143,7 +143,7 @@ append_config '' "$CONF_FILE"
 # Mender Device Configuration
 append_config '# === MENDER DEVICE SETTINGS ===' "$CONF_FILE"
 append_config 'MENDER_DEVICE_TYPE = "raspberrypi4"' "$CONF_FILE"
-append_config 'MENDER_ARTIFACT_NAME = "release-1"' "$CONF_FILE"
+append_config 'MENDER_ARTIFACT_NAME = "base"' "$CONF_FILE"
 append_config '' "$CONF_FILE"
 
 # Mender Storage Configuration - CRITICAL FOR SD CARD
