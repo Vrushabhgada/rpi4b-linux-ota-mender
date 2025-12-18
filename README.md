@@ -1,29 +1,37 @@
-# ECEN 5713 AESD Fall 2025 Final Project
+# rpi4b-linux-ota-mender
 
-## Project Overview
+This project demonstrates building and updating a custom Linux image for Raspberry Pi 4B using Yocto Project and Mender OTA framework.
 
-[Project Overview Link](https://github.com/VrushabhGadaCU/final-project-assignment-OTA-SecureBoot/wiki)
+## Overview
 
-## Project Schedule
+This project implements an OTA update mechanism for kernel images using the Yocto Project build system. It enables remote kernel updates without physical access to the device, ensuring seamless system maintenance and security patching.
 
-[Project Schedule Link](https://github.com/users/VrushabhGadaCU/projects/2/views/1)
+## Features
 
+- **OTA Kernel Updates**: Remote kernel image updates without physical intervention
+- **Yocto Integration**: Built on the robust Yocto Project framework
+- **Dual Boot Support**: A/B partition scheme for safe rollback capability
+- **Update Verification**: Checksum validation and secure boot support
+- **Rollback Mechanism**: Automatic fallback to previous kernel on boot failure
 
-# Yocto Image for RPi 4 B
+## Prerequisites
 
-To Compile the image run the following command
+- **Host System Requirements**:
+  - Ubuntu 20.04 LTS or later (or compatible Linux distribution)
+  - Minimum 50GB free disk space
+  - 8GB RAM (16GB recommended)
+  - Python 3.6 or later
+
+**Required Packages**:
+```bash
+  sudo apt-get install gawk wget git diffstat unzip texinfo gcc build-essential \
+  chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils \
+  iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint3 \
+  xterm python3-subunit mesa-common-dev zstd liblz4-tool
+```
+
+**To build run** 
 
 ```
-./build.sh
-```
-
-
-Once you are done with building the image you run following command to flash the image 
-
-```
-cd build/tmp/deploy/images/raspberrypi4-64/
-bunzip2 -dkf core-image-minimal-raspberrypi4-64.wic.bz2
-sudo dd if=core-image-minimal-raspberrypi4-64.wic of=/dev/sdb bs=4M status=progress conv=fsync
-sync
-sudo eject /dev/sdb
+ ./build.sh
 ```

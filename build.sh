@@ -12,36 +12,28 @@ git submodule update
 
 # Source environment
 echo "=== Setting up build environment ==="
+
+# Define configuration file path
+CONF_FILE="build/conf/local.conf"
+
+# Check if conf file exists and delete it
+if [ -f "$CONF_FILE" ]; then
+    echo "=== Found existing $CONF_FILE, deleting it ==="
+    rm -f "$CONF_FILE"
+    echo "=== Deleted $CONF_FILE ==="
+fi
+
+
 source poky/oe-init-build-env
 
 CONF_FILE="conf/local.conf"
+
 
 # --- Ensure local.conf exists ---
 if [ ! -f "$CONF_FILE" ]; then
     echo "Error: local.conf not found. Make sure build environment is set correctly."
     exit 1
 fi
-
-# --- IMPORTANT: Clean up ALL previous configuration to start fresh ---
-echo "=== Cleaning up existing configuration from local.conf ==="
-sed -i '/INHERIT.*mender/d' "$CONF_FILE"
-sed -i '/MENDER_/d' "$CONF_FILE"
-sed -i '/^MACHINE = "raspberrypi4-64"/d' "$CONF_FILE"
-sed -i '/IMAGE_FSTYPES/d' "$CONF_FILE"
-sed -i '/SDIMG_ROOTFS_TYPE/d' "$CONF_FILE"
-sed -i '/^GPU_MEM/d' "$CONF_FILE"
-sed -i '/DISTRO_FEATURES.*wifi/d' "$CONF_FILE"
-sed -i '/VIRTUAL-RUNTIME_init_manager/d' "$CONF_FILE"
-sed -i '/DISTRO_FEATURES_BACKFILL_CONSIDERED/d' "$CONF_FILE"
-sed -i '/IMAGE_FEATURES.*ssh/d' "$CONF_FILE"
-sed -i '/IMAGE_INSTALL:append/d' "$CONF_FILE"
-sed -i '/ENABLE_UART/d' "$CONF_FILE"
-sed -i '/SERIAL_CONSOLES/d' "$CONF_FILE"
-sed -i '/RPI_EXTRA_CONFIG/d' "$CONF_FILE"
-sed -i '/RPI_USE_U_BOOT/d' "$CONF_FILE"
-sed -i '/PREFERRED_PROVIDER_virtual\/bootloader/d' "$CONF_FILE"
-sed -i '/IMAGE_OVERHEAD_FACTOR/d' "$CONF_FILE"
-sed -i '/IMAGE_ROOTFS_EXTRA_SPACE/d' "$CONF_FILE"
 
 # --- Add Layers FIRST ---
 add_layer_if_missing() {
