@@ -35,3 +35,6 @@ This project implements an OTA update mechanism for kernel images using the Yoct
 ```
  ./build.sh
 ```
+
+
+<p style="font-size: 50px;"><a href="https://drive.google.com/file/d/1VwIAHuHhnTEy4mI_JyF2RSm1vaQGG0CI/view?usp=sharing">Demo</a></p>
